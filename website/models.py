@@ -1,0 +1,19 @@
+from . import db
+from flask_login import UserMixin
+from sqlalchemy.sql import func
+
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.String(10000)) # db.String receives max character value of string
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class User(db.Model, UserMixin):
+    # db.Column receives the column I want to read. primary_key=True tells it it is the main user identifier.
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True)
+    password = db.Column(db.String(150))
+    firs_name = db.Column(db.String(150))
+    notes = db.relationship('Note')

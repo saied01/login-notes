@@ -8,9 +8,27 @@ from flask_login import login_user, login_required, logout_user, current_user
 auth = Blueprint('auth', __name__)
 
 
-@auth.route("/login")
+@auth.route("/login", methods=["POST", "GET"])
 def login():
 
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        # Buscar usuario en database
+        # Loggear y validar usuario
+        login_user(user)
+
+        flask.flash('Logged in successfully.')
+
+        next = flask.request.args.get('next')
+
+        # url_has_allowed_host_and_scheme should check if the url is safe
+        # for redirects, meaning it matches the request host.
+
+        if not url_has_allowed_host_and_scheme(next, request.host):
+            return flask.abort(400)
+        
+        return flask.redirect(next or url_for('home'))
+ 
     return render_template("login.html")
 
 

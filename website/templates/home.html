@@ -3,5 +3,22 @@
 Home
 {% endblock %}
 {% block content %}
-home page
+
+<h1 class="mt-4 px-5">Notes</h1>
+<ul class="list-group list-group-flush">
+    {% for note in user.notes %}
+    <button type="button" class="close" onclick="deleteNote('{{ note.id }}')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <li class="list-group-item px-5">{{ note.data }}</li>
+    {% endfor %}
+</ul>
+
+<form method="POST" class="mt-4 px-5">
+    <textarea name="note" id="note" class="form-control"></textarea>
+    <div>
+        <button type="submit" class="px-3 mt-4 btn btn-primary">Add Note</button>
+    </div>
+</form>
+
 {% endblock %}
